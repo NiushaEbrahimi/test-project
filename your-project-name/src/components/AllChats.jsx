@@ -26,6 +26,9 @@ function AllChats({ userId }) {
   return (
     <div>
       <h3>All Chats</h3>
+          <Link to={`/`}>
+            <button> + Create New Chat</button>
+          </Link>
       <ul>
         {chats.map((chat) => (
           <li key={chat._id}>

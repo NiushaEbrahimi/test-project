@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faRobot } from '@fortawesome/free-solid-svg-icons';
 import { useEffect,useState } from "react";
 import axios from "axios";
 
@@ -22,25 +25,16 @@ function ChatMessages({chatId}){
         <>
             <div className="chat-messages-container">
                 {messages.map((message, index) =>{
-                    if(message.role === "user"){
-                        return(
-                                <div key={index} className="chat-message-container">
-                                    <div className="chat-message-content">
-                                        {message.content}
-                                    </div>
+                    return(
+                            <div key={index} className={message.role === "user" ? "chat-message-container chat-message-user" : "chat-message-container chat-message-container chat-message-bot"}>
+                                <div>
+                                    <FontAwesomeIcon icon={message.role === "user" ? faUser : faRobot} color={message.role === "user" ? "black" : "white"}/>
                                 </div>
-                            )
-                    }
-                    else{
-                        return(
-                            <div key={index} className="chat-message-container">
-                                <div className="chat-message-content"></div>
-                                <div className="chat-message-content">
+                                <p>
                                     {message.content}
-                                </div>
+                                </p>
                             </div>
                         )
-                    }
                 })}
             </div>
         </>

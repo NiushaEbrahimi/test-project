@@ -9,7 +9,7 @@ function ChatLayout({userId}){
             <div className="chat-container">
                 <header>
                     <Link to="/all-chats">
-                    <FontAwesomeIcon icon={faCommentDots} color="black"/>
+                        <FontAwesomeIcon icon={faCommentDots} color="black"/>
                     </Link>
                     <h4>پشتیبان آنلاین</h4>
                 </header>
