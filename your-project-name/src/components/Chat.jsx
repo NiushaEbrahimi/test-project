@@ -1,37 +1,40 @@
 // import axios from "axios";
-// import { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import ChatMessages from "./ChatMessages.jsx";
+function Chat({userId}){
+    const [value,setValue] = useState("")
+    const API_BASE = "http://localhost:5000";
 
-function Chat(){
-    // const [messages, setMessages] = useState([]);
-    // const [message, setMessage] = useState("");
-    // const [name, setName] = useState("");
+    async function createChat(userId, title) {
+        const res = await fetch(`${API_BASE}/chats`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, title }),
+        });
+        return res.json();
+    }
 
-    // const getMessages = async () => {
-    //     const response = await axios.get("http://localhost:3000/messages");
-    //     setMessages(response.data);
-    // };
-
-    // const sendMessage = async (event) => {
-    //     event.preventDefault();
-    //     const response = await axios.post("http://localhost:3000/messages", {
-    //         name: name,
-    //         message: message,
-    //     });
-    //     setMessages([...messages, response.data]);
-    //     setMessage("");
-    // };
     function handleSend(e){
         e.preventDefault()
+        // this takes the title of the conversation
+        // so it should happen only once
+        createChat(userId,value)
+        setValue("")
+        console.log("it's working")
     }
     return(
         <>
-           <div className="chat-display">hlelo</div>
+           <div className="chat-display">
+                <ChatMessages/>
+           </div>
            <div className="input-container">
                 <form onSubmit={(e)=>handleSend(e)}>
                     <button type="submit"><FontAwesomeIcon icon={faPaperPlane} /></button>
-                    <input type="text" />
+                    <input type="text" placeholder='سوالت را بپرس ...' value={value} onChange={(e)=>{
+                        setValue(e.target.value)
+                    }}/>
                 </form>
            </div>
         </>

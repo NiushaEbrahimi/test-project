@@ -3,8 +3,13 @@ import Chat from "./components/Chat.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import "./assets/css/main.css";
+// import { useState } from "react";
 
 function App() {
+  
+// TODO: implement this with apis
+// const [userId, setUserId] = useState("");
+  const userId = "123"
   return (
     <>
       <main>
@@ -16,7 +21,7 @@ function App() {
             <h4>پشتیبان آنلاین</h4>
           </header>
           <div className="chat-section">
-            <Chat/>
+            <Chat userId={userId} />
           </div>
         </div>
       </main>
