@@ -1,6 +1,8 @@
 import { Link} from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 
 function AllChats({ userId }) {
   const [chats, setChats] = useState([]);
@@ -21,22 +23,34 @@ function AllChats({ userId }) {
     };
 
     fetchChats();
-  }, [userId]);
+  }, [userId,chats]);
+
+  async function deleteChat(chatId) {
+    try {
+      await axios.delete(`${API_BASE}/chats/${chatId}`);
+      console.log("Chat deleted successfully");
+    } catch (err) {
+      console.error("Error deleting chat:", err);
+    }
+  }
 
   return (
-    <div>
-      <h3>All Chats</h3>
-          <Link to={`/`}>
-            <button> + Create New Chat</button>
-          </Link>
-      <ul>
-        {chats.map((chat) => (
-          <li key={chat._id}>
-            <Link to={`/chat/${chat._id}`}>{chat.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <main className="main-all-chats">
+      <h3>تمام چت ها </h3>
+      <Link to={`/`} className="create-link">
+        <button> + ایجاد صفحه چت جدید</button>
+      </Link>
+      <div className="list-container">
+        <ul>
+          {chats.map((chat) => (
+            <li key={chat._id}>
+              <Link to={`/chat/${chat._id}`}>{chat.title}</Link>
+              <span onClick={()=>deleteChat(chat._id)}>delete</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </main>
   );
 }
 
