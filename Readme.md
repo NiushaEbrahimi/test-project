@@ -31,14 +31,18 @@ cd test-project
 ### 2. Install dependencies
 
 -for the frontend
-# Frontend
+
+```bash
 cd frontend
 npm install
+```
 
 -for the backend (in another terminal)
-# Backend
+
+```bash
 cd ../backend
 npm install
+```
 
 ### 3. Start the application
 
