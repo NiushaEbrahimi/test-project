@@ -54,7 +54,7 @@ function Chat({ userId }) {
     return (
         <>
             <div className="chat-display">
-                <ChatMessages chatId={chatIdURL} addMessage={addMessage} />
+                <ChatMessages chatId={chatIdURL} userId={userId} addMessage={addMessage} createChat={createChat}/>
             </div>
             <div className="input-container">
                 <form onSubmit={handleSend}>
