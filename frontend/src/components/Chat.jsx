@@ -43,7 +43,6 @@ function Chat({ userId }) {
             if (!currentChatId) return;
         }
 
-        
         await addMessage(currentChatId, "user", value);
 
         const botReply = getBotReply(value);
@@ -55,14 +54,20 @@ function Chat({ userId }) {
     return (
         <>
             <div className="chat-display">
-                <ChatMessages chatId={chatIdURL} />
+                <ChatMessages chatId={chatIdURL} addMessage={addMessage} />
             </div>
             <div className="input-container">
                 <form onSubmit={handleSend}>
-                    <button type="submit">
+                    <button
+                        type="submit"
+                        // this is for test automation
+                        id="send-button"
+                    >
                         <FontAwesomeIcon icon={faPaperPlane} />
                     </button>
                     <input
+                        // this is for test automation
+                        id="chat-input"
                         type="text"
                         placeholder="سوالت را بپرس ..."
                         value={value}

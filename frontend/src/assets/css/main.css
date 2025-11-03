@@ -239,10 +239,39 @@ header > a:hover {
     padding: 0.5rem 1rem;
     font-size: 1rem;
 }
+
 .list-container > ul > li > span {
     display: block;
     background-color: grey;
     color: white;
     padding: 0.5rem 0.8rem;
     border-radius: 1rem;
+}
+
+.predefined-questions-container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1vh;
+    overflow: hidden;
+}
+
+.predefined-questions{
+    display: inline-block;
+    min-width: 30vw;
+}
+
+.predefined-questions > button{
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 1rem;
+    background-color: transparent;
+    transition-duration: 300ms;
+}
+.predefined-questions > button:hover{
+    background-color: #ffffff41; 
+    scale: 1.1;   
 }
