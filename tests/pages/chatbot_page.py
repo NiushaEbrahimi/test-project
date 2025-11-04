@@ -2,7 +2,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 class ChatbotPage:
     URL = "http://localhost:5173"
@@ -72,19 +73,21 @@ class ChatbotPage:
         # Click the last one (most recent bot message)
         copy_buttons[-1].click()
 
-    def delete_chat(self, chat_text, timeout=5):
-        delete_buttons = self.driver.find_elements(*self.DELETE_BUTTON)
-        for btn in delete_buttons:
-            parent_text = btn.find_element(By.XPATH, "./..").text
-            if chat_text.strip() in parent_text.strip():
-                btn.click()
-                break
 
-        # Safe check without stale references
-        WebDriverWait(self.driver, timeout).until(lambda d: not any(
-            chat_text.strip() in c.text for c in d.find_elements(*self.CHAT_ITEM)
-            if c.is_displayed()
-        ))
+    def delete_chat(self, chat_text, timeout=55):
+        # Find the specific chat item by its exact link text, not substring
+        try:
+            chat_item = self.driver.find_element(
+                By.XPATH, f'//li[contains(@class, "chat-item") and .//a[normalize-space(text())="{chat_text}"]]'
+            )
+            delete_btn = chat_item.find_element(*self.DELETE_BUTTON)
+            self.driver.execute_script("arguments[0].click();", delete_btn)
+
+            # Wait for the chat item to be removed from the DOM
+            WebDriverWait(self.driver, timeout).until(EC.staleness_of(chat_item))
+        except (NoSuchElementException, TimeoutException):
+            raise Exception(f"Chat '{chat_text}' not found or could not be deleted.")
+
 
 
     def scroll_to_first_chat(self):

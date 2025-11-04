@@ -46,7 +46,13 @@ function AllChats({ userId }) {
           {chats.map((chat) => (
             <li key={chat._id} className="chat-item">
               <Link to={`/chat/${chat._id}`}>{chat.title}</Link>
-              <span className="delete-btn" onClick={()=>deleteChat(chat._id)}>delete</span>
+              <button 
+                data-chatid={chat.id}
+                className="delete-btn" 
+                onClick={()=>deleteChat(chat._id)}  
+              >
+                delete
+              </button>
             </li>
           ))}
         </ul>

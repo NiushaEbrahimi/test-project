@@ -202,10 +202,13 @@ def step_check_clipboard(context):
 
 @then('the chat "{chat_text}" should no longer be visible in history')
 def step_check_deleted(context, chat_text):
-    chat_items = context.page.driver.find_elements(*context.page.CHAT_ITEM)
-    for item in chat_items:
-        if chat_text in item.text:
-            raise AssertionError(f"Chat '{chat_text}' still visible in history")
+    # Wait a short moment for the list to refresh
+    WebDriverWait(context.page.driver, 5).until_not(
+        EC.presence_of_element_located((
+            By.XPATH, f'//li[contains(@class, "chat-item") and .//a[normalize-space(text())="{chat_text}"]]'
+        ))
+    )
+
 
 
 @then('the first chat "{chat_text}" should be visible')
