@@ -6,10 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 def before_all(context):
-    # Optional: run headless (uncomment to hide browser)
-    # options = Options()
-    # options.add_argument("--headless=new")
-    # context.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
     context.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     context.wait = WebDriverWait(context.driver, 10)

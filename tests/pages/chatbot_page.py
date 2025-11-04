@@ -6,6 +6,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 class ChatbotPage:
+
+
+# تعامل با element صفحه وب
+# برای سازماندهی Locators و متدهای تعامل با صفحه.
+# از اونجایی که پایتون زبان برنامه نویسی وب نیست
+# و نمیتواند مرورگر را کنترل کند : 
+# WebDriver: یک واسط برنامه‌نویسی (API)
+#  فراهم می‌کند که امکان ارسال دستوراتی مانند "باز کردن URL"، "
+# کلیک کردن" یا "تایپ کردن" را به مرورگر می‌دهد.
+
     URL = "http://localhost:5173"
 
     # -------------------------------
@@ -40,13 +50,13 @@ class ChatbotPage:
     # -------------------------------
     # Main Actions
     # -------------------------------
+
     def click_predefined_question(self, question):
         """Click one of the predefined question buttons."""
         button_id = self.PREDEFINED_BUTTONS.get(question)
         if not button_id:
             raise ValueError(f"No button ID mapped for question: {question}")
         self.driver.find_element(By.ID, button_id).click()
-
 
     def type_and_send(self, question):
         """Type a message and click Send."""
@@ -66,7 +76,6 @@ class ChatbotPage:
         
         copy_buttons[-1].click()
 
-
     def delete_chat(self, chat_text, timeout=55):
         
         try:
@@ -82,8 +91,6 @@ class ChatbotPage:
         except (NoSuchElementException, TimeoutException):
             raise Exception(f"Chat '{chat_text}' not found or could not be deleted.")
 
-
-
     def scroll_to_first_chat(self):
         """Scroll to the top of chat history."""
         chats = self.driver.find_elements(*self.CHAT_ITEM)
@@ -95,6 +102,7 @@ class ChatbotPage:
     # -------------------------------
     # Data Access Methods
     # -------------------------------
+
     def get_output_text(self):
         bot_messages = self.driver.find_elements(By.CSS_SELECTOR, ".chat-message-bot .chat-output")
         return bot_messages[-1].text.strip()
