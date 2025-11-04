@@ -14,25 +14,18 @@ class ChatbotPage:
     CHAT_INPUT = (By.ID, "chat-input")
     SEND_BUTTON = (By.ID, "send-button")
 
-    # Multiple chat outputs exist — class selector is correct
     CHAT_OUTPUT = (By.CSS_SELECTOR, ".chat-output:last-of-type")
 
     VIEW_HISTORY_BTN = (By.CSS_SELECTOR, "header a[href='/all-chats']")
     CHAT_HISTORY_DIV = (By.CLASS_NAME, "main-all-chats")
 
-    # Each chat item in history (container)
     CHAT_ITEM = (By.CLASS_NAME, "chat-item")
 
-    # Buttons inside each chat item
     DELETE_BUTTON = (By.CLASS_NAME, "delete-btn")
     COPY_BUTTON = (By.CLASS_NAME, "copy-btn")
 
-    # Predefined question buttons mapping (to be filled with actual IDs)
-    PREDEFINED_BUTTONS = {
-        # Example:
-        # "What is your name?": "predefined-q1",
-        # "Tell me a joke": "predefined-q2",
-    }
+    # PREDEFINED_BUTTONS = {
+    # }
 
     # -------------------------------
     # Methods
@@ -70,12 +63,12 @@ class ChatbotPage:
         copy_buttons = self.driver.find_elements(*self.COPY_BUTTON)
         if not copy_buttons:
             raise Exception("No Copy Response button found.")
-        # Click the last one (most recent bot message)
+        
         copy_buttons[-1].click()
 
 
     def delete_chat(self, chat_text, timeout=55):
-        # Find the specific chat item by its exact link text, not substring
+        
         try:
             chat_item = self.driver.find_element(
                 By.XPATH, f'//li[contains(@class, "chat-item") and .//a[normalize-space(text())="{chat_text}"]]'
@@ -83,8 +76,9 @@ class ChatbotPage:
             delete_btn = chat_item.find_element(*self.DELETE_BUTTON)
             self.driver.execute_script("arguments[0].click();", delete_btn)
 
-            # Wait for the chat item to be removed from the DOM
+            
             WebDriverWait(self.driver, timeout).until(EC.staleness_of(chat_item))
+            
         except (NoSuchElementException, TimeoutException):
             raise Exception(f"Chat '{chat_text}' not found or could not be deleted.")
 

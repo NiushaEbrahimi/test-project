@@ -14,16 +14,14 @@ with open(json_path, "r", encoding="utf-8") as f:
     chatbot_db = json.load(f)
 
 def _get_expected_answer(question: str) -> str:
-    # اول چک کن exact match باشد
+
     if question in chatbot_db["exact_replies"]:
         return chatbot_db["exact_replies"][question]
     
-    # بعد چک کن keyword match باشد
     for item in chatbot_db["keyword_replies"]:
         if any(kw in question for kw in item["keywords"]):
             return item["reply"]
     
-    # در غیر این صورت پاسخ ناشناخته
     return chatbot_db["unknown_responses"][0]
 
 @given("the chatbot page is opened")
@@ -34,8 +32,6 @@ def step_open_chatbot(context):
     context.chat_history = []
     context.last_question = None
     context.last_answer = None
-
-# TODO: put the undefined in gherkin
 
 @given("the user has previous chat history")
 def step_previous_history(context):
@@ -70,12 +66,10 @@ def step_click_send(context):
     send_btn.click()
     time.sleep(0.5)
 
-    # فقط برای اطمینان از render شدن
     WebDriverWait(context.page.driver, 5).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, ".chat-message-bot"))
     )
 
-    # اما expected answer را از دیتابیس بگیر
     context.last_answer = _get_expected_answer(context.last_question)
     context.chat_history.append({"question": context.last_question, "answer": context.last_answer})
 
@@ -88,7 +82,6 @@ def step_view_history(context):
 
 @when('the user clicks "Copy Response"')
 def step_copy_response(context):
-    # Wait for bot response to appear before copying
     WebDriverWait(context.page.driver, 10).until(
         lambda d: "chat-message-bot" in d.page_source
     )
@@ -107,11 +100,10 @@ def step_scroll_first_chat(context):
 @when('the user asks multiple questions:')
 def step_ask_multiple_questions(context):
     for row in context.table:
-        question = row['سوال']  # Header is Persian!
+        question = row['سوال'] 
         context.page.type_and_send(question)
-        time.sleep(0.3)  # Let UI update
+        time.sleep(0.3) 
 
-        # Replicate answer logic from step_click_send
         if question in chatbot_db["exact_replies"]:
             answer = chatbot_db["exact_replies"][question]
         else:
@@ -123,11 +115,12 @@ def step_ask_multiple_questions(context):
             if answer is None:
                 answer = chatbot_db["unknown_responses"][0]
         context.chat_history.append({"question": question, "answer": answer})
+
 @when('the user can type a new question "{question}"')
 def step_type_new_question(context, question):
     context.page.type_and_send(question)
     time.sleep(0.3)
-    # Compute expected answer (same as step_click_send)
+    
     if question in chatbot_db["exact_replies"]:
         answer = chatbot_db["exact_replies"][question]
     else:
@@ -162,8 +155,6 @@ def step_user_can_type_new_question(context, question):
     input_box.clear()
     input_box.send_keys(question)
     context.last_question = question
-
-
 
 @then('the chatbot should display one of unknown_responses')
 def step_check_unknown(context):
@@ -202,14 +193,12 @@ def step_check_clipboard(context):
 
 @then('the chat "{chat_text}" should no longer be visible in history')
 def step_check_deleted(context, chat_text):
-    # Wait a short moment for the list to refresh
+
     WebDriverWait(context.page.driver, 5).until_not(
         EC.presence_of_element_located((
             By.XPATH, f'//li[contains(@class, "chat-item") and .//a[normalize-space(text())="{chat_text}"]]'
         ))
     )
-
-
 
 @then('the first chat "{chat_text}" should be visible')
 def step_check_first_chat(context, chat_text):
