@@ -8,19 +8,12 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 class ChatbotPage:
 
 
-# تعامل با element صفحه وب
-# برای سازماندهی Locators و متدهای تعامل با صفحه.
-# از اونجایی که پایتون زبان برنامه نویسی وب نیست
-# و نمیتواند مرورگر را کنترل کند : 
-# WebDriver: یک واسط برنامه‌نویسی (API)
-#  فراهم می‌کند که امکان ارسال دستوراتی مانند "باز کردن URL"، "
-# کلیک کردن" یا "تایپ کردن" را به مرورگر می‌دهد.
-
     URL = "http://localhost:5173"
 
     # -------------------------------
     # Locators
     # -------------------------------
+
     CHAT_INPUT = (By.ID, "chat-input")
     SEND_BUTTON = (By.ID, "send-button")
 
@@ -34,12 +27,10 @@ class ChatbotPage:
     DELETE_BUTTON = (By.CLASS_NAME, "delete-btn")
     COPY_BUTTON = (By.CLASS_NAME, "copy-btn")
 
-    # PREDEFINED_BUTTONS = {
-    # }
-
     # -------------------------------
     # Methods
     # -------------------------------
+
     def __init__(self, driver):
         self.driver = driver
 

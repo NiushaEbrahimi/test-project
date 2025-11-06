@@ -26,6 +26,9 @@ def _get_expected_answer(question: str) -> str:
         
     return chatbot_db["unknown_responses"][0]
 
+# -------------------------------
+# Given
+# -------------------------------
 
 @given("the chatbot page is opened")
 def step_open_chatbot(context):
@@ -52,6 +55,9 @@ def step_multiple_chats(context):
     context.chat_history = context.page.get_all_chat_texts()
     assert len(context.chat_history) > 1, "No multiple chats found in history"
 
+# -------------------------------
+# When
+# -------------------------------
 
 @when('the user clicks the prepared question button "{question}"')
 def step_click_predefined(context, question):
@@ -152,6 +158,9 @@ def step_type_new_question(context, question):
     context.last_answer = answer
     context.chat_history.append({"question": question, "answer": answer})
 
+# -------------------------------
+# Then
+# -------------------------------
 
 @then('the chatbot should display "{expected_answer}"')
 def step_check_answer(context, expected_answer):

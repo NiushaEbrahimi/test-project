@@ -19,6 +19,11 @@ A simple full-stack chat application with a chatbot interface built using React 
 
 ---
 
+## Demo
+[👁️ frontend-only preview] (https://test-project-r4mo.vercel.app/)
+
+---
+
 ## ⚙️ Setup
 
 ### 1. Clone the repository
@@ -58,3 +63,19 @@ npm run dev
 npm start
 ```
 
+### 4. Start the Test Cases
+
+go to the tests directory
+
+```bash
+cd tests
+```
+
+and run the following command:
+
+```bash
+pip install -r requirements.txt
+
+behave
+
+```
